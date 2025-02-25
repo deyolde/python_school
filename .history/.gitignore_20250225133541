@@ -1,0 +1,33 @@
+# Entornos virtuales
+venv/
+.env
+
+# Archivos de caché de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de registro y base de datos
+*.log
+*.sqlite3
+db.sqlite3
+
+# Archivos de configuración y compilación
+.idea/           # Configuración de IntelliJ o PyCharm
+.vscode/         # Configuración de VS Code
+*.bak            # Archivos de respaldo
+build/           # Carpeta de compilación
+dist/            # Distribuciones de paquetes
+
+# Archivos del sistema
+.DS_Store        # MacOS
+Thumbs.db        # Windows
+
+# Carpetas específicas del proyecto
+.history/        # Historial de VS Code
+node_modules/    # Dependencias de Node.js
+
+# Ignorar todos los archivos excepto uno
+# *            # Ignora todo
+# !config.py   # Excepto config.py
