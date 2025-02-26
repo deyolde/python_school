@@ -41,3 +41,5 @@ if __name__ == '__main__':
     print(hash(p1))        # Valor hash único del objeto
 
 
+
+
