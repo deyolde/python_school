@@ -4,9 +4,9 @@ import psycopg2 as bd
 import sys
 
 # creamos la clase conexión
-class conexion:
+class Conexion:
     _DATABASE = 'bar_db'
-    _USERNAME = 'admin'  # Corregido de _USERNAE
+    _USERNAME = 'postgres'  # Corregido de _USERNAE
     _PASSWORD = 'admin'
     _DB_PORT  = '5432'   # Corregido de 5342
     _HOST     = '127.0.0.1'
@@ -42,3 +42,6 @@ class conexion:
                 sys.exit()  # Añadido para manejar el error
         return cls._cursor  # Simplificado la lógica
 
+if __name__ == '__main__':
+    Conexion.obtenerConexion()
+    Conexion.obtenerCursor()

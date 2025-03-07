@@ -1,4 +1,5 @@
 {
     "cSpell.enabled": false,
-    "wolf.disableHotModeWarning": true
+    "wolf.disableHotModeWarning": true,
+    "CodeGPT.apiKey": "LM Studio"
 }
