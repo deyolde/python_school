@@ -7,15 +7,17 @@
 
 # importamos logueador
 from logger_base import log
+from datetime import datetime, timezone
 
 # clase Persona
 # el valor None es para poder pasar cualquier atributo y el otro tendrá null o lo que se especifique
 class Persona:
-    def __init__(self, id_persona=None, nombre=None, apellido=None, email=None):
-        self._id_persona = id_persona
-        self._nombre     = nombre
-        self._apellido   = apellido
-        self._email      = email
+    def __init__(self, id_persona=None, nombre=None, apellido=None, datePersona=None, updPersona=None):
+        self._id_persona   = id_persona
+        self._nombre       = nombre
+        self._apellido     = apellido
+        self._datePersona  = datePersona
+        self._updPersona   = updPersona
         
 # método str para devolver los datos de la clase persona
     def __str__(self):
@@ -23,7 +25,8 @@ class Persona:
             Id Persona: {self._id_persona},
             nombre: {self._nombre},
             apellido: {self._apellido},
-            email: {self._email}
+            create: {self._datePersona},
+            update: {self._updPersona}
     '''
 
 # métodos get y set para modificar y recuperar persona
@@ -54,17 +57,27 @@ class Persona:
     def apellido(self, apellido):
         self._apellido = apellido
 
-# get y set para enail de la persona
+# get y set para date of creation of record de la persona
     @property
-    def email(self):
-        return self._email
+    def date(self):
+        return self._datePersona
     
-    @email.setter
-    def email(self, email):
-        self._email = email
+    @date.setter
+    def date(self, datePersona):
+        self._datePersona = datePersona
+
+# get y set para update record de la persona
+    @property
+    def update(self):
+        return self._updPersona
+    
+    @update.setter
+    def update(self, updPersona):
+        self._updPersona = updPersona
 
 if __name__ == '__main__':
-    persona1 = Persona(1, 'David', 'Yolde', 'deyolde@mail.com')
+    timestamp_actual = datetime.now(timezone.utc)
+    persona1 = Persona(nombre='Susana', apellido='Torio', datePersona=timestamp_actual, updPersona=timestamp_actual)
     log.debug(persona1)
-    persona1 = Persona(nombre='Jorge',apellido='Lazarte',email='jlazarte@mai.com')
+    persona1 = Persona(nombre='Gabi', apellido='Lazarte', datePersona=timestamp_actual, updPersona=timestamp_actual)
     log.debug(persona1)

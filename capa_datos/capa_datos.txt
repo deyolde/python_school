@@ -1,0 +1,22 @@
+¿ Qué es una capa de datos ?
+----------------------------
+Una capa de datos es una abstracción que se encarga de gestionar la interacción entre una aplicación y una base de datos. 
+Su propósito es desacoplar la lógica de negocio del acceso a datos, lo que permite mejorar la organización del código,
+facilitar el mantenimiento y aumentar la seguridad.
+
+En términos de arquitectura, la capa de datos suele incluir:
+
+# Conexión a la base de datos (gestión de credenciales y configuración).
+# Funciones para ejecutar consultas SQL (SELECT, INSERT, UPDATE, DELETE).
+# Mapeo de datos entre la base de datos y las estructuras de datos en Python (ORM o consultas directas).
+# Manejo de errores y transacciones para garantizar la integridad de los datos.
+
+¿Para qué sirve crear una Capa de Datos en Python?
+----------------------------------------------------
+# Encapsulación: Se oculta la lógica de acceso a datos para que otras partes del código solo trabajen con funciones o 
+  clases específicas.
+# Reutilización: Las funciones de acceso a datos pueden ser reutilizadas en distintos módulos de la aplicación.
+# Mantenimiento fácil: Separar la lógica de negocio del acceso a datos facilita la modificación del código sin 
+  afectar otras partes del sistema.
+# Seguridad: Se pueden aplicar validaciones y controles de acceso antes de ejecutar una consulta a la base de datos.
+# Portabilidad: Permite cambiar la base de datos (por ejemplo, de PostgreSQL a MySQL) con menor impacto en el código.
