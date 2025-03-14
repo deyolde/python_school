@@ -4,7 +4,6 @@ from conexion import Conexion
 from persona import Persona
 from logger_base import log
 from datetime import datetime, timezone
-from cursorPool import CursorPool
 
 # CRUD - Create / Read / Update / Delete
 class PersonaDAO:
@@ -21,42 +20,46 @@ class PersonaDAO:
 #
         personas_select = [] # lista vacía para almacenar los objetos Persona
 #
-        with CursorPool() as cursor_select:
-            cursor_select.execute(cls._SELECCIONAR)
-            registros_select = cursor_select.fetchall() # fetchall() recupera todos los registros que se hayan seleccionado
+        with Conexion.obtenerConexion() as conexion_select:
+            with conexion_select.cursor() as cursor_select:
+                cursor_select.execute(cls._SELECCIONAR)
+                registros_select = cursor_select.fetchall() # fetchall() recupera todos los registros que se hayan seleccionado
 #
-            for registro in registros_select:
-                persona = Persona(registro[0], registro[1], registro[2], registro[3], registro[4])
-                personas_select.append(persona) # agregar el objeto Persona a la lista personas
+                for registro in registros_select:
+                    persona = Persona(registro[0], registro[1], registro[2], registro[3], registro[4])
+                    personas_select.append(persona) # agregar el objeto Persona a la lista personas
 #
         return personas_select # devolver la lista de objetos Persona
 
 # método para insertar un nuevo registro
     @classmethod
     def insertar(cls, persona):
-        with CursorPool() as cursor_insert:
-            valores = (persona.nombre, persona.apellido, persona.datePersona, persona.updPersona)
-            cursor_insert.execute(cls._INSERTAR, valores)
-            log.debug(f'Persona insertada: {persona}')
-            return cursor_insert.rowcount # rowcount devuelve el número de filas afectadas por la consulta
+        with Conexion.obtenerConexion() as conexion_insert:
+            with conexion_insert.cursor() as cursor:
+                valores = (persona.nombre, persona.apellido, persona.datePersona, persona.updPersona)
+                cursor.execute(cls._INSERTAR, valores)
+                log.debug(f'Persona insertada: {persona}')
+                return cursor.rowcount # rowcount devuelve el número de filas afectadas por la consulta
             
 # método para realizar la actualización de un registro
     @classmethod
     def actualizar(cls, persona):
-        with CursorPool() as cursor_update:
-            valores = (persona.nombre, persona.apellido, persona.updPersona, persona.id_persona)
-            cursor_update.execute(cls._ACTUALIZAR, valores)
-            log.debug(f'Persona actualizada: {persona}')
-            return cursor_update.rowcount
+        with Conexion.obtenerConexion() as conexion_update:
+            with conexion_update.cursor() as cursor:
+                valores = (persona.nombre, persona.apellido, persona.updPersona, persona.id_persona)
+                cursor.execute(cls._ACTUALIZAR, valores)
+                log.debug(f'Persona actualizada: {persona}')
+                return cursor.rowcount
             
 # método para realizar un delete de un registro
     @classmethod
     def eliminar(cls, persona):
-        with CursorPool() as cursor_delete:
-            valores = (persona.id_persona,)
-            cursor_delete.execute(cls._ELIMINAR, valores)
-            log.debug(f'Objeto eliminado: {persona}')
-            return cursor_delete.rowcount
+        with Conexion.obtenerConexion() as conexion_delete:
+            with conexion_delete.cursor() as cursor:
+                valores = (persona.id_persona,)
+                cursor.execute(cls._ELIMINAR, valores)
+                log.debug(f'Objeto eliminado: {persona}')
+                return cursor.rowcount
             
 if __name__ == '__main__':
     timestamp_actual = datetime.now(timezone.utc)
@@ -71,9 +74,9 @@ if __name__ == '__main__':
     # log.debug(f'Personas Actualizadas: {personas_actualizadas}')
 
 # eliminar una persona
-    # persona_delete = Persona(id_persona=5)
-    # personas_eliminadas = PersonaDAO.eliminar(persona_delete)
-    # log.debug(f'Personas eliminadas {personas_eliminadas}')
+    persona_delete = Persona(id_persona=5)
+    personas_eliminadas = PersonaDAO.eliminar(persona_delete)
+    log.debug(f'Personas eliminadas {personas_eliminadas}')
     
 # seleccionar() devuelve una lista de objetos Persona
     personas = PersonaDAO.seleccionar() 

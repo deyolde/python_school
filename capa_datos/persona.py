@@ -59,25 +59,24 @@ class Persona:
 
 # get y set para date of creation of record de la persona
     @property
-    def date(self):
+    def datePersona(self):
         return self._datePersona
     
-    @date.setter
-    def date(self, datePersona):
+    @datePersona.setter
+    def datePersona(self, datePersona):
         self._datePersona = datePersona
 
 # get y set para update record de la persona
     @property
-    def update(self):
+    def updPersona(self):
         return self._updPersona
     
-    @update.setter
+    @updPersona.setter
     def update(self, updPersona):
         self._updPersona = updPersona
 
 if __name__ == '__main__':
     timestamp_actual = datetime.now(timezone.utc)
     persona1 = Persona(nombre='Susana', apellido='Torio', datePersona=timestamp_actual, updPersona=timestamp_actual)
-    log.debug(persona1)
     persona1 = Persona(nombre='Gabi', apellido='Lazarte', datePersona=timestamp_actual, updPersona=timestamp_actual)
     log.debug(persona1)
