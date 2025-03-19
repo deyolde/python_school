@@ -11,12 +11,10 @@ class Cliente:
         self.dupdate    = dupdate
         
     def __str__(self): # definición de la impresión de la clase Cliente
-        return  (
-                f'id_cliente: {self.id_cliente}, '
-                f'Nombre: {self.nombre}, '
-                f'Apellido: {self.apellido}, '
-                f'Edad: {self.edad}, '
-                f'Teléfono: {self.telefono}, '
-                f'Fecha de creación: {self.dcreate}, '
+        return  f'id_cliente: {self.id_cliente}, '\
+                f'Nombre: {self.nombre}, '\
+                f'Apellido: {self.apellido}, '\
+                f'Edad: {self.edad}, '\
+                f'Teléfono: {self.telefono}, '\
+                f'Fecha de creación: {self.dcreate}, '\
                 f'Fecha de actualización: {self.dupdate}'
-                )

@@ -21,6 +21,7 @@ class ClienteDAO:
     def seleccionar(cls):
         connection_select = None
         clientes_lista = []
+        cantidad_registros = 0  # Inicializamos la variable
         
         try:
             connection_select = connectionMySQL.get_connection()
@@ -28,6 +29,7 @@ class ClienteDAO:
             cursor.execute(cls.SELECCIONAR)
             
             registros = cursor.fetchall() # obtiene todos los registros
+            cantidad_registros = len(registros)  # Contar registros manualmente
             
             for registro in registros:
                 cliente_UNO = Cliente(registro[0], registro[1], registro[2],

@@ -21,6 +21,7 @@ class ClienteDAO:
     def seleccionar(cls):
         connection_select = None
         clientes_lista = []
+        cantidad_registros = 0  # Inicializamos la variable
         
         try:
             connection_select = connectionMySQL.get_connection()
@@ -28,6 +29,7 @@ class ClienteDAO:
             cursor.execute(cls.SELECCIONAR)
             
             registros = cursor.fetchall() # obtiene todos los registros
+            cantidad_registros = len(registros)  # Contar registros manualmente
             
             for registro in registros:
                 cliente_UNO = Cliente(registro[0], registro[1], registro[2],
@@ -44,7 +46,7 @@ class ClienteDAO:
             if connection_select:
                 connection_select.close()
                 
-        return clientes_lista
+        return clientes_lista, cantidad_registros
                 
     @classmethod
     def insertar(cls, cliente):
@@ -108,3 +110,25 @@ class ClienteDAO:
                 connectionMySQL.release_connection(connection_borrar)
 
         return cursor.rowcount # retorna el numero de registros que se borraron
+
+# pruebas
+# d:\Programación\python_school\trabajo_con_mySql\test_clienteDAO.py
+
+if __name__ == '__main__':
+# # insertar un nuevo cliente
+#     cliente1 = Cliente(nombre='Diana', apellido='Mondino', edad=25, telefono='657-1234')
+#     clientes_insertados = ClienteDAO.insertar(cliente1)
+#     print(f'Clientes insertados: {clientes_insertados}')
+
+# # actualizar un cliente
+    cliente1 = Cliente('Néstor', 'Agripa', 25, '657-9999',4)
+    # mostrar los datos a modificar
+    print(f' Cliente a modificar: {cliente1}')
+    cliente_modificado = ClienteDAO.actualizar(cliente1)
+    print(f'Clientes modificados: {cliente_modificado}')
+    
+    # listar todos los clientes
+    clientes, cantidad= ClienteDAO.seleccionar()
+    print(f'Cantidad de Clientes: {cantidad}')  # Imprimir la cantidad de registros{cantidad}')
+    for cliente in clientes:
+        print(cliente)

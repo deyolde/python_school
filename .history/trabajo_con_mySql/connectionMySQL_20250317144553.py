@@ -25,6 +25,8 @@ class connectionMySQL:
                     password=cls.PASSWORD,
                     database=cls.DATABASE
                 )
+                print(f'Se ha creado el pool: {cls.pool.pool_name}')
+                print(f'Tamaño del pool: {cls.pool.pool_size}')
                 return cls.pool
                 
             except Exception as e:
@@ -42,3 +44,14 @@ class connectionMySQL:
     @classmethod
     def release_connection(cls, conn):
         conn.close()
+
+        
+# prueba del método
+if __name__ == '__main__':
+    # creacion del objeto pool de conexiones
+    pool = connectionMySQL.get_pool()
+    
+    # obtener el objeto connection
+    conn1 = connectionMySQL.get_connection()
+    print(conn1)
+    connectionMySQL.release_connection(conn1)
