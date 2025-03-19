@@ -7,8 +7,14 @@ from cliente import Cliente
 
 class ClienteDAO:
     SELECCIONAR = 'SELECT * FROM cliente ORDER BY id_cliente'
-    INSERTAR    = 'INSERT INTO cliente(nombre_cliente, apellido_cliente, edad_cliente, telefono_cliente) VALUES(%s, %s, %s, %s)'
-    ACTUALIZAR  = 'UPDATE cliente SET nombre_cliente=%s, apellido_cliente=%s, edad_cliente=%s, telefono_cliente=%s WHERE id_cliente=%s'
+    INSERTAR    = '''INSERT INTO cliente(nombre_cliente, apellido_cliente, edad_cliente, telefono_cliente) 
+                    VALUES(%s, %s, %s, %s)'''
+    ACTUALIZAR  = '''UPDATE cliente 
+                    SET nombre_cliente=%s, 
+                    apellido_cliente=%s, 
+                    edad_cliente=%s, 
+                    telefono_cliente=%s 
+                    WHERE id_cliente=%s'''
     BORRAR      = 'DELETE FROM cliente WHERE id_cliente=%s'
     
     @classmethod
@@ -64,23 +70,27 @@ class ClienteDAO:
                 
     @classmethod
     def actualizar(cls, cliente):
-        connection_actualizar = None
+        connection_update = None
+        filas_afectadas = 0  # Para almacenar el resultado
+        
         try:
-            connection_actualizar = connectionMySQL.get_connection()
-            cursor = connection_actualizar.cursor()
-            valores = (cliente.nombre, cliente.apellido, cliente.edad, cliente.telefono)
+            connection_update = connectionMySQL.get_connection()
+            cursor = connection_update.cursor()
+            valores = (cliente.id_cliente, cliente.nombre, cliente.apellido, cliente.edad, cliente.telefono)
             cursor.execute(cls.ACTUALIZAR, valores)
-            connection_actualizar.commit()
+            connection_update.commit()
+            filas_afectadas = cursor.rowcount  # Verificar si se modificó alguna fila
         
         except Exception as e:
             print(f'Ocurrión un error: {e}')
             
         finally:
-            if connection_actualizar is not None:
+            if cursor:
                 cursor.close()
-                connectionMySQL.release_connection(connection_actualizar)
+            if connection_update:
+                connection_update.close()
                 
-        return cursor.rowcount # retorna el numero de registros que se actualizaron
+        return filas_afectadas  # Devuelve la cantidad de filas modificadas
                 
     @classmethod
     def borrar(cls, id):
@@ -109,9 +119,16 @@ if __name__ == '__main__':
 #     cliente1 = Cliente(nombre='Diana', apellido='Mondino', edad=25, telefono='657-1234')
 #     clientes_insertados = ClienteDAO.insertar(cliente1)
 #     print(f'Clientes insertados: {clientes_insertados}')
+
+# # actualizar un cliente
+    cliente1 = Cliente('Néstor', 'Agripa', 25, '657-9999',4)
+    # mostrar los datos a modificar
+    print(f' Cliente a modificar: {cliente1}')
+    cliente_modificado = ClienteDAO.actualizar(cliente1)
+    print(f'Clientes modificados: {cliente_modificado}')
     
     # listar todos los clientes
-        clientes, cantidad= ClienteDAO.seleccionar()
-        print(f'Cantidad de Clientes: {cantidad}')  # Imprimir la cantidad de registros{cantidad}')
-        for cliente in clientes:
-            print(cliente)
+    clientes, cantidad= ClienteDAO.seleccionar()
+    print(f'Cantidad de Clientes: {cantidad}')  # Imprimir la cantidad de registros{cantidad}')
+    for cliente in clientes:
+        print(cliente)

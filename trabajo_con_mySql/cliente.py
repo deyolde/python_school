@@ -18,4 +18,3 @@ class Cliente:
                 f'Teléfono: {self.telefono}, '\
                 f'Fecha de creación: {self.dcreate}, '\
                 f'Fecha de actualización: {self.dupdate}'
-    
